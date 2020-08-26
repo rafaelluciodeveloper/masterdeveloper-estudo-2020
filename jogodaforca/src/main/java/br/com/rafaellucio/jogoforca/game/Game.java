@@ -4,23 +4,30 @@ package br.com.rafaellucio.jogoforca.game;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.com.rafaellucio.jogoforca.core.Dictonary;
+import br.com.rafaellucio.jogoforca.core.Config;
+import br.com.rafaellucio.jogoforca.core.Dictionary;
 import br.com.rafaellucio.jogoforca.core.Word;
 import br.com.rafaellucio.jogoforca.ui.UI;
 
 public class Game {
 	
-	private static int MAX_ERRORS = 5;
 	
-	public void start() {
+	public void start(String[] args) {
 		UI.print("Bem Vindo ao Jogo da Forca!");
-		Dictonary dictonary = Dictonary.getInstance();
-		Word word = dictonary.nexWord();
+		Dictionary dictionary = Dictionary.getInstance();
+		Word word = dictionary.nexWord();
+		UI.print(dictionary.getName());
 		
-		UI.print("A Palavra tem  " + word.size() + "letras");
+		UI.print("A Palavra tem  " + word.size() + " letras");
 		
 		Set<Character> usedChars =  new HashSet<>();
 		int errorCount = 0;
+		
+		if(args.length > 0) {
+			Config.setMaxErrors(args[0]);
+		}
+		int maxErrors =  Integer.parseInt(Config.get("maxErrors"));
+		UI.print("Voce pode errar no maximo " + maxErrors + " vez(es)");
 		
 		while(true) {
 			UI.print(word);
@@ -37,8 +44,8 @@ public class Game {
 					UI.print("Voce Acertou uma Letra!");
 				}else {
 					errorCount++;
-					if(errorCount < MAX_ERRORS) {
-						UI.print("Voce Errou! Voce Ainda pode errar " + (MAX_ERRORS - errorCount) + " Vez(es)");
+					if(errorCount < maxErrors) {
+						UI.print("Voce Errou! Voce Ainda pode errar " + (maxErrors - errorCount) + " Vez(es)");
 					}
 				}
 				
@@ -50,7 +57,7 @@ public class Game {
 					break;
 				}
 				
-				if(errorCount == MAX_ERRORS) {
+				if(errorCount == maxErrors) {
 					UI.print("Voce perdeu o jogo! , A Palavra correta era  : " + word.getOrignalWorld());
 					UI.print("Fim do Jogo!");
 					break;

@@ -7,23 +7,14 @@ import java.util.Scanner;
 import br.com.rafaellucio.jogoforca.game.GameException;
 import br.com.rafaellucio.jogoforca.utils.RandomUtils;
 
-public class Dictonary {
-	private static final String FILE_NAME = "dicionario.txt";
+public class FileDictionary extends Dictionary{
 	
-	private static Dictonary instance;
+	private static final String FILE_NAME = "dicionario.txt";
 	
 	private List<String> words =  new ArrayList<>();
 	
-	private Dictonary() {
+	public FileDictionary() {
 		load();
-	}
-	
-	public static Dictonary getInstance() {
-		if(instance == null) {
-			instance = new Dictonary();
-		}
-		
-		return instance;
 	}
 	
 	private void load() {
@@ -38,9 +29,15 @@ public class Dictonary {
 		}
 	}
 	
+	@Override
 	public Word nexWord() {
 		int pos =RandomUtils.newRandomNumber(0, words.size());
 		return new Word(words.get(pos));
+	}
+
+	@Override
+	public String getName() {
+		return "Arquivo :" + FILE_NAME;
 	}
 	
 }
