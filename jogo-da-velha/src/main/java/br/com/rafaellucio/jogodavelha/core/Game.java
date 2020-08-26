@@ -80,7 +80,7 @@ public class Game {
 	}
 	
 	private Player nextPlayer() {
-		/*
+		/*g
 		currentPlayerIndex++;
 		if(currentPlayerIndex >= 0 players.length) {
 			currentPlayerIndex = 0;
